@@ -21,6 +21,7 @@ const options = {
     'https://mesto.sergei-shabanov.nomoredomains.xyz',
     'https://github.com/SergeiShabanov1989',
   ],
+  credentials: true,
 };
 
 app.use('*', cors(options));
