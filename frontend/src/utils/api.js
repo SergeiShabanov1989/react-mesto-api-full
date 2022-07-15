@@ -1,3 +1,5 @@
+import { BASE_URL } from '../auth'
+
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -96,7 +98,7 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: 'http://localhost:3001',
+  baseUrl:  BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     authorization: `Bearer ${localStorage.getItem('token')}`,
