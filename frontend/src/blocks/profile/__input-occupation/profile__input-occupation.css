@@ -1,0 +1,20 @@
+.profile__input-occupation {
+  color: white;
+  margin: 16px 0 0;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 767px) {
+  .profile__input-occupation {
+    max-width: 282px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 14px 0 0;
+    align-self: center;
+  }
+}

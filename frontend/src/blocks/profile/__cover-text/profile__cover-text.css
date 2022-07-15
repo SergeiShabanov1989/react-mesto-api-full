@@ -1,0 +1,13 @@
+.profile__cover-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 767px) {
+  .profile__cover-text {
+    align-self: center;
+    max-width: 282px;
+  }
+}

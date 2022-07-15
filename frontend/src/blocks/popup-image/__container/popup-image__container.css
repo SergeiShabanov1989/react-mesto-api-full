@@ -1,0 +1,13 @@
+.popup-image__container {
+  max-height: 75%;
+  max-width: 75%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+  .popup-image__container {
+    height: 75%;
+  }
+}

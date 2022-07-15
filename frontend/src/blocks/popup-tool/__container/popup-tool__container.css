@@ -1,0 +1,24 @@
+.popup-tool__container {
+  width: 430px;
+  height: 330px;
+  background-color: white;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1023px) {
+  .popup-tool__container {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .popup-tool__container {
+    width: 288px;
+  }
+}

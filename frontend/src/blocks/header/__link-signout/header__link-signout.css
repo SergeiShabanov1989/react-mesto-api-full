@@ -1,0 +1,13 @@
+.header__link-signout {
+  text-decoration: none;
+  color: #A9A9A9;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@media screen and (max-width: 767px) {
+  .header__link-signout {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

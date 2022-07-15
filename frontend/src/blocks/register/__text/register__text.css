@@ -1,0 +1,17 @@
+.register__text {
+  width: 100%;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid #CCCCCC;
+  padding: 0 0 10px;
+  font-size: 14px;
+  line-height: 17px;
+  color: white;
+  background-color: black;
+  margin-bottom: 30px;
+}
+
+.register__text:last-of-type {
+  margin-bottom: 0;
+}
