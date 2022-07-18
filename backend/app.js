@@ -19,6 +19,7 @@ const options = {
   origin: [
     'http://localhost:3000',
     'https://mesto.sergei-shabanov.nomoredomains.xyz',
+    'http://mesto.sergei-shabanov.nomoredomains.xyz',
     'https://github.com/SergeiShabanov1989',
   ],
   credentials: true,

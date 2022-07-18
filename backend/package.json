@@ -1,5 +1,5 @@
 {
-  "name": "express-mesto-gha",
+  "name": "express-mesto-api-full-backend",
   "version": "1.0.0",
   "description": "[![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml)\r # Проект Mesto фронтенд + бэкенд",
   "main": "app.js",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/SergeiShabanov1989/express-mesto-gha.git"
   },
-  "author": "",
+  "author": "Sergei Shabanov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SergeiShabanov1989/express-mesto-gha/issues"

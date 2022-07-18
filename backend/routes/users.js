@@ -16,7 +16,6 @@ router.get('/:userId', celebrate({
     userId: REGEX_ID,
   }),
   headers: Joi.object().keys({
-    authoriation: Joi.string(),
   }).unknown(true),
 }), getUserById);
 router.patch('/me', celebrate({

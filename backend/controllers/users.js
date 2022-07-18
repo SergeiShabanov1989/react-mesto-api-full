@@ -124,6 +124,7 @@ module.exports.login = async (req, res, next) => {
     }
     return next(err);
   }
+  return null;
 };
 
 module.exports.getUser = async (req, res, next) => {
