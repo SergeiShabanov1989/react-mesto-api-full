@@ -22,38 +22,32 @@ module.exports.getUsers = async (req, res, next) => {
 module.exports.getUserById = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId)
-      .orFail(() => new Error('Not Found'));
-    res.status(OK).send(user);
+      .orFail(() => new NotFoundError('Запрашиваемый пользователь не найден'));
+    return res.status(OK).send(user);
   } catch (err) {
-    if (err.message === 'Not Found') {
-      return next(new NotFoundError('Запрашиваемый пользователь не найден'));
-    }
     if (err.name === 'CastError') {
       return next(new BadRequest('Некорректно передан id'));
     }
-    next(err);
+    return next(err);
   }
-  return null;
 };
 
 module.exports.createUser = async (req, res, next) => {
   try {
-    await bcrypt.hash(req.body.password, 10)
+    const user = await bcrypt.hash(req.body.password, 10)
       .then((hash) => User.create({
         name: req.body.name,
         about: req.body.about,
         avatar: req.body.avatar,
         email: req.body.email,
         password: hash,
-      }))
-      .then((user) => {
-        res.status(CREATED).send({
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-        });
-      });
+      }));
+    return res.status(CREATED).send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+    });
   } catch (err) {
     if (err.name === 'ValidationError') {
       return next(new BadRequest('Переданы некорректные данные при создании пользователя'));
@@ -61,9 +55,8 @@ module.exports.createUser = async (req, res, next) => {
     if (err.code === 11000) {
       return next(new ConflictError('Такой email уже зарегистрирован'));
     }
-    next(err);
+    return next(err);
   }
-  return null;
 };
 
 module.exports.updateUserInfo = async (req, res, next) => {
@@ -74,18 +67,14 @@ module.exports.updateUserInfo = async (req, res, next) => {
       req.user._id,
       { name, about },
       { new: true, runValidators: true },
-    ).orFail(() => new Error('Not Found'));
-    res.status(OK).send(user);
+    ).orFail(() => new NotFoundError('Запрашиваемый пользователь не найден'));
+    return res.status(OK).send(user);
   } catch (err) {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
       return next(new BadRequest('Переданы некорректные данные при обновлении профиля'));
     }
-    if (err.message === 'Not Found') {
-      return next(new NotFoundError('Запрашиваемый пользователь не найден'));
-    }
-    next(err);
+    return next(err);
   }
-  return null;
 };
 
 module.exports.updateUserAvatar = async (req, res, next) => {
@@ -96,18 +85,14 @@ module.exports.updateUserAvatar = async (req, res, next) => {
       req.user._id,
       { avatar },
       { new: true, runValidators: true },
-    ).orFail(() => new Error('Not Found'));
-    res.status(OK).send(user);
+    ).orFail(() => new NotFoundError('Запрашиваемый пользователь не найден'));
+    return res.status(OK).send(user);
   } catch (err) {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
       return next(new BadRequest('Переданы некорректные данные при обновлении аватара'));
     }
-    if (err.message === 'Not Found') {
-      return next(new NotFoundError('Запрашиваемый пользователь не найден'));
-    }
-    next(err);
+    return next(err);
   }
-  return null;
 };
 
 module.exports.login = async (req, res, next) => {
@@ -128,26 +113,17 @@ module.exports.login = async (req, res, next) => {
         if (!matched) {
           return next(new UnauthorizedError('Неправильный email или пароль'));
         }
-        return Promise.all([
-          user,
-          jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' }),
-        ]);
+        return jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
       })
-      .then(([user, token]) => {
-        res.status(OK).send(
-          {
-            user,
-            token,
-          },
-        );
+      .then((token) => {
+        res.status(OK).send({ token });
       });
   } catch (err) {
     if (err.statusCode === 401) {
       return next(new UnauthorizedError('Вы не авторизованы'));
     }
-    next(err);
+    return next(err);
   }
-  return null;
 };
 
 module.exports.getUser = async (req, res, next) => {
