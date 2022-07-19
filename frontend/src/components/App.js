@@ -61,15 +61,6 @@ function App() {
     }
   }
 
-  React.useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([userdata, card]) => {
-        setCurrentUser(userdata)
-        setCards(card)
-        })
-      .catch(console.log)
-  }, [])
-
   function handleCardClick (dataFromCard) {
     setSelectedCard({
       name: dataFromCard.cardName,
@@ -178,7 +169,16 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-  }, []);
+
+    if (loggedIn) {
+      Promise.all([api.getProfile(), api.getInitialCards()])
+        .then(([userdata, card]) => {
+          setCurrentUser(userdata)
+          setCards(card)
+        })
+        .catch(console.log)
+    }
+  }, [loggedIn])
 
   React.useEffect(() => {
     if (loggedIn) {

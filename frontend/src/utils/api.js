@@ -14,16 +14,20 @@ class Api {
     }
   }
 
+  _headerWithJwt() {
+    return {authorization: `Bearer ${localStorage.getItem('token')}`, ...this._headers}
+  }
+
   getProfile() {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }
@@ -31,7 +35,7 @@ class Api {
   editProfile(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._headerWithJwt(),
       body: JSON.stringify({
         name,
         about
@@ -43,7 +47,7 @@ class Api {
   addCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: this._headerWithJwt(),
       body: JSON.stringify({
         name,
         link
@@ -55,7 +59,7 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}`, {
       method: "DELETE",
-      headers: this._headers
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }
@@ -63,7 +67,7 @@ class Api {
   deleteLike(id) {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "DELETE",
-      headers: this._headers
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }
@@ -71,7 +75,7 @@ class Api {
   addLike(id) {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: "PUT",
-      headers: this._headers
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }
@@ -80,7 +84,7 @@ class Api {
     this.methodName = like ? "PUT" : "DELETE";
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: this.methodName,
-      headers: this._headers
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }
@@ -88,7 +92,7 @@ class Api {
   editAvatar(avatar) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._headerWithJwt(),
       body: JSON.stringify({
         avatar
       })
@@ -101,6 +105,6 @@ export const api = new Api({
   baseUrl:  BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${localStorage.getItem('token')}`,
+    Accept: 'application/json',
   }
 });
