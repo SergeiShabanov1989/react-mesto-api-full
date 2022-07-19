@@ -34,14 +34,14 @@ module.exports.getUserById = async (req, res, next) => {
 
 module.exports.createUser = async (req, res, next) => {
   try {
-    const user = await bcrypt.hash(req.body.password, 10)
-      .then((hash) => User.create({
-        name: req.body.name,
-        about: req.body.about,
-        avatar: req.body.avatar,
-        email: req.body.email,
-        password: hash,
-      }));
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    const user = await User.create({
+      name: req.body.name,
+      about: req.body.about,
+      avatar: req.body.avatar,
+      email: req.body.email,
+      password: hashPassword,
+    });
     return res.status(CREATED).send({
       name: user.name,
       about: user.about,
@@ -99,32 +99,22 @@ module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    await User.findOne({ email }).select('+password')
-      .then((user) => {
-        if (!user) {
-          return next(new UnauthorizedError('Неправильный email или пароль'));
-        }
-        return Promise.all([
-          user,
-          bcrypt.compare(password, user.password),
-        ]);
-      })
-      .then(([user, matched]) => {
-        if (!matched) {
-          return next(new UnauthorizedError('Неправильный email или пароль'));
-        }
-        return jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
-      })
-      .then((token) => {
-        res.status(OK).send({ token });
-      });
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return next(new UnauthorizedError('Неправильный email или пароль'));
+    }
+    const matched = await bcrypt.compare(password, user.password);
+    if (!matched) {
+      return next(new UnauthorizedError('Неправильный email или пароль'));
+    }
+    const token = await jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
+    return res.status(OK).send({ token });
   } catch (err) {
     if (err.statusCode === 401) {
       return next(new UnauthorizedError('Вы не авторизованы'));
     }
     return next(err);
   }
-  return null;
 };
 
 module.exports.getUser = async (req, res, next) => {

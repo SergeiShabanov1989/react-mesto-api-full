@@ -20,22 +20,16 @@ router.delete('/:cardId', celebrate({
   params: Joi.object().keys({
     cardId: REGEX_ID,
   }),
-  headers: Joi.object().keys({
-  }).unknown(true),
 }), deleteCard);
 router.put('/:cardId/likes', celebrate({
   params: Joi.object().keys({
     cardId: REGEX_ID,
   }),
-  headers: Joi.object().keys({
-  }).unknown(true),
 }), likeCard);
 router.delete('/:cardId/likes', celebrate({
   params: Joi.object().keys({
     cardId: REGEX_ID,
   }),
-  headers: Joi.object().keys({
-  }).unknown(true),
 }), dislikeCard);
 
 module.exports = router;
