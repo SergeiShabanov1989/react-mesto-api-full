@@ -9,9 +9,9 @@
   line-height: 17px;
   color: white;
   background-color: black;
-  margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
-.register__text:last-of-type {
-  margin-bottom: 0;
+.register__text:first-of-type {
+  margin-bottom: 30px;
 }
