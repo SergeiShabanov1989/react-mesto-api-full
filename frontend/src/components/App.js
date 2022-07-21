@@ -186,6 +186,16 @@ function App() {
     }
   }, [loggedIn]);
 
+  React.useEffect(() => {
+    const close = (e) => {
+      if(e.keyCode === 27){
+        closeAllPopups()
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  },[])
+
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>
       <Header userData={userData} handleSignOut={signOut} />
