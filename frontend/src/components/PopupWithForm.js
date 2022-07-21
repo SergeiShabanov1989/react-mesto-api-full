@@ -1,6 +1,13 @@
 import React from "react";
 
 function PopupWithForm(props) {
+  React.useEffect(() => {
+    if (props.isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [props.isOpen]);
   return (
     <>
       <div onClick={props.onClose} className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
