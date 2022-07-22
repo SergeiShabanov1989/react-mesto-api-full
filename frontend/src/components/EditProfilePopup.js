@@ -5,15 +5,15 @@ import {useState} from "react";
 
 function EditProfilePopup(props) {
   const { currentUser } = React.useContext(CurrentUserContext)
-  // const [name, setName] = React.useState('');
-  // const [description, setDescription] = React.useState('');
+  const[isButtonDisabled, setButtonDisabled] = React.useState(false);
   const [dataUser, setDataUser] = useState({
     name: '',
     occupation: ''
   });
   const [error, setError] = useState({
     name: '',
-    occupation: ''
+    occupation: '',
+    buttonDisabled: false
   })
 
   React.useEffect(() => {
@@ -22,14 +22,6 @@ function EditProfilePopup(props) {
       occupation: currentUser.about || ''
     });
   }, [currentUser, props.onUpdateUser]);
-
-  // function handleNameEdit(e) {
-  //   setName(e.target.value)
-  // }
-  //
-  // function handleDescriptionEdit(e) {
-  //   setDescription(e.target.value)
-  // }
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -49,20 +41,24 @@ function EditProfilePopup(props) {
         case "name":
           if (!value) {
             stateObj[name] = "Заполните имя";
-          } else if (dataUser.name.length < 1) {
-            stateObj["name"] = "Длина не может быт меньше двух символов";
+          } else if (value < 2) {
+            stateObj["name"] = "Длина не может быть меньше двух символов";
+            setButtonDisabled(true);
           } else {
             stateObj["name"] = dataUser.name ? "" : error.name;
+            setButtonDisabled(false);
           }
           break;
 
         case "occupation":
           if (!value) {
             stateObj[name] = "Заполните род деятельности";
-          } else if (dataUser.occupation.length < 1) {
-            stateObj["occupation"] = "Длина не может быт меньше двух символов";
+          } else if (value < 2) {
+            stateObj["occupation"] = "Длина не может быть меньше двух символов";
+            setButtonDisabled(true);
           } else {
             stateObj["occupation"] = dataUser.occupation ? "" : error.occupation;
+            setButtonDisabled(false);
           }
           break;
 
@@ -91,7 +87,8 @@ function EditProfilePopup(props) {
       button="Сохранить"
       name="edit"
       title="Редактировать профиль"
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isButtonDisabled={isButtonDisabled}>
       <div className="popup__input-container">
         <input
           type="text"

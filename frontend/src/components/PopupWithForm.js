@@ -8,6 +8,7 @@ function PopupWithForm(props) {
       document.body.style.overflow = 'unset';
     }
   }, [props.isOpen]);
+
   return (
     <>
       <div onClick={props.onClose} className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
@@ -24,7 +25,7 @@ function PopupWithForm(props) {
             name={`form_type_${props.name}`}>
             <h2 className="popup__title">{props.title}</h2>
             {props.children}
-            <button className="popup__button" type="submit">
+            <button className={`popup__button ${props.isButtonDisabled ? 'popup__button_disabled' : ''}`} type="submit">
               {props.button}
             </button>
           </form>
